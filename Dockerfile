@@ -6,8 +6,8 @@ ENV EL_VERSION "${VERSION}"
 
 RUN yum install epel-release -y
 RUN set -eux \
-    && yum update -y \
-    && yum install -y --allowerasing \
+    && dnf update -y \
+    && dnf install -y --allowerasing \
         gcc \
         vim \
         curl \
@@ -15,14 +15,15 @@ RUN set -eux \
         make \
         ccache \
         rpmlint \
-        python3 \
+        python3.11 \
+        python3.11-pip \
         rpm-sign \
         rpm-build \
         yum-utils \
         createrepo \
         rpmdevtools \
         ca-certificates \
-    && yum clean all
+    && dnf clean all
 
 # Enable PowerTools or CodeReady Builder
 RUN set -eux \
