@@ -28,7 +28,7 @@ RUN set -eux \
 RUN set -eux \
     && /usr/bin/crb enable
 
-ENV GCLOUD_SDK "503.0.0"
+ENV CLOUD_SDK_VERSION "503.0.0"
 ENV PATH /google-cloud-sdk/bin:$PATH
 ENV CLOUDSDK_PYTHON_SITEPACKAGES 1
 RUN set -eux \
