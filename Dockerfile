@@ -32,9 +32,10 @@ ENV GCLOUD_SDK "503.0.0"
 ENV PATH /google-cloud-sdk/bin:$PATH
 ENV CLOUDSDK_PYTHON_SITEPACKAGES 1
 RUN set -eux \
+    && if [[ "$(uname -m)" == "aarch64" ]]; then export PLAT="arm"; elif [[ "$(uname -m)" == "x86_64" ]]; then export PLAT="x86_64"; else exit 1; fi \
     && mkdir -p /tmp/build \
     && cd /tmp/build \
-    && curl -sS -L -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK}-linux-x86_64.tar.gz \
+    && curl -sS -L -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-${PLAT}.tar.gz \
     && tar xfz google-cloud-sdk.tar.gz -C / \
     && cd /tmp \
     && rm -rf /tmp/build /google-cloud-sdk/bin/anthoscli \
@@ -47,13 +48,15 @@ RUN set -eux \
 
 ENV JFROG_CLI_VERSION "2.72.2"
 RUN set -eux \
-    && curl -sS -L -o /usr/local/bin/jfrog https://releases.jfrog.io/artifactory/jfrog-cli/v2/${JFROG_CLI_VERSION}/jfrog-cli-linux-amd64/jfrog
+    && if [[ "$(uname -m)" == "aarch64" ]]; then export PLAT="arm64"; elif [[ "$(uname -m)" == "x86_64" ]]; then export PLAT="amd64"; else exit 1; fi \
+    && curl -sS -L -o /usr/local/bin/jfrog https://releases.jfrog.io/artifactory/jfrog-cli/v2/${JFROG_CLI_VERSION}/jfrog-cli-linux-${PLAT}/jfrog
 
 ENV VAULT_VERSION "1.18.2"
 RUN set -eux \
+    && if [[ "$(uname -m)" == "aarch64" ]]; then export PLAT="arm64"; elif [[ "$(uname -m)" == "x86_64" ]]; then export PLAT="amd64"; else exit 1; fi \
     && mkdir -p /tmp/build \
     && cd /tmp/build \
-    && curl -sS -L -o vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip \
+    && curl -sS -L -o vault.zip  https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${PLAT}.zip \
     && unzip -oqd /usr/local/bin vault.zip \
     && rm -rf /tmp/build \
     && chmod +x /usr/local/bin/*
