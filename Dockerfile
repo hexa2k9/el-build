@@ -29,7 +29,7 @@ RUN set -eux \
 RUN set -eux \
     && /usr/bin/crb enable
 
-ENV CLOUD_SDK_VERSION "503.0.0"
+ENV CLOUD_SDK_VERSION "521.0.0"
 ENV PATH /google-cloud-sdk/bin:$PATH
 ENV CLOUDSDK_PYTHON_SITEPACKAGES 1
 RUN set -eux \
@@ -47,12 +47,12 @@ RUN set -eux \
     && rm -rf /google-cloud-sdk/.install/.backup \
     && rm -rfv /google-cloud-sdk/bin/kubectl.* /google-cloud-sdk/bin/anthoscli
 
-ENV JFROG_CLI_VERSION "2.72.2"
+ENV JFROG_CLI_VERSION "2.75.1"
 RUN set -eux \
     && if [[ "$(uname -m)" == "aarch64" ]]; then export PLAT="arm64"; elif [[ "$(uname -m)" == "x86_64" ]]; then export PLAT="amd64"; else exit 1; fi \
     && curl -sS -L -o /usr/local/bin/jfrog https://releases.jfrog.io/artifactory/jfrog-cli/v2/${JFROG_CLI_VERSION}/jfrog-cli-linux-${PLAT}/jfrog
 
-ENV VAULT_VERSION "1.18.2"
+ENV VAULT_VERSION "1.19.3"
 RUN set -eux \
     && if [[ "$(uname -m)" == "aarch64" ]]; then export PLAT="arm64"; elif [[ "$(uname -m)" == "x86_64" ]]; then export PLAT="amd64"; else exit 1; fi \
     && mkdir -p /tmp/build \
