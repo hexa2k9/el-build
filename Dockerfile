@@ -1,5 +1,5 @@
 ARG VERSION=8
-FROM rockylinux:${VERSION}
+FROM rockylinux/rockylinux:${VERSION}
 
 ARG VERSION=8
 ENV EL_VERSION="${VERSION}"
